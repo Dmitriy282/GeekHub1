@@ -1,3 +1,5 @@
 sequence = input("Введіть послідовність чисел через кому: ")
-print(list(sequence))
-print(tuple(sequence))
+list = sequence.split(',')
+tuple= tuple(list)
+print('List: ', list)
+print('Tuple: ',tuple)
