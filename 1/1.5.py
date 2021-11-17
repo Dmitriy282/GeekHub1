@@ -1,2 +1,2 @@
 decimal  = int(input("Введіть число для перетворення:"))
-print(hex(decimal))
+print(format(decimal, '02x'))
