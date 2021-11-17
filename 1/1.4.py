@@ -1,4 +1,2 @@
-number = input('Введіть число: ')
-result = '-'.join(number)
-
-print(result)
+a = input('Введіть слова: ').split(',')
+print("".join(a))
