@@ -1,7 +1,7 @@
 #Написати скрипт, який видалить пусті елементи із списка. 
-list = [(), (), ('',), ('a', 'b'), {}, ('a', 'b', 'c'), ('d'), '', []]
-list1 = []
-for i in list:
+data = [(), (), ('',), ('a', 'b'), {}, ('a', 'b', 'c'), ('d'), '', []]
+list = []
+for i in data:
   if i:
-     list1.append(i)
-print(list1)
+     list.append(i)
+print(list)
