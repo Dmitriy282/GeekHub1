@@ -18,6 +18,9 @@ def foo(in_str):
         print(new_str)
     else:
         print(len(in_str))
+        print(len([i for i in in_str if i.isdigit()]))
+        print(len([i for i in in_str if i.isalpha()]))
+
 
 s = 'f98neroi4nr0c3n30irn03ien3c0rfekdno400wenwkowe00koijn35pijnp46ij7k5j78p3kj546p465jnpoj35po6j345'
 foo(s)
