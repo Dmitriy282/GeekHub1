@@ -1,9 +1,14 @@
 #Написати функцію < fibonacci >, яка приймає один аргумент і виводить всі числа Фібоначчі, що не перевищують його.
-def fib(n):
-    if (n==1 or n==2):
-        return 1
-    elif n==0:
-        return 0
-    return fib(n-2)+fib(n-1)
+n = int(input('Введіть число: '))
+def sum_fib(n):
+    c=1
+    p=0
+    s=0
+    fibonacci = []
+    while (c <= n):
+        fibonacci += [c]
+        s+=c
+        c,p=c+p,c
+    return fibonacci
 
-[print(fib(n)) for n in range (int(input("Введіть число: ")))]
+print(sum_fib(n))
