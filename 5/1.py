@@ -6,19 +6,24 @@
 class LoginException(Exception):
     pass
 def f(username, password, silent=False):
-    dct = [{'sfgdg': 'xvdsd',
-            'dgdsg': 'xcsdf',
-            'dggsge': 'dfsef',
-            'admin': 'admin',
-            'Geekhub': 'forever'}]
-    for i in dct:
+    dct = [{'sfgdg': 'xvdsd'},
+           {'dgdsg': 'xcsdf'},
+           {'dggsge': 'dfsef'},
+           {'admin': 'admin'},
+           {'Geekhub': 'forever'}]
+    x,y,z,a,d = dct
+    x.update(y)
+    x.update(z)
+    x.update(a)
+    x.update(d)
 
-        res = i.get(username) == password
-        if not res and not silent:
-            raise LoginException
-        return res
+    res = x.get(username) == password
+    if not res and not silent:
+        raise LoginException('Непраивльний логін і пароль')
+    return res
 
 
 print(f('username1', 'pass21', silent=True))
 print(f('Geekhub', 'forever'))
-print(f('sdsfsf', 'sdsf', silent=False))
+print(f('admin','admin'))
+print(f('dssdada','dsadadafsfa'))
