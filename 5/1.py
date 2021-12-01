@@ -19,10 +19,13 @@ def f(username, password, silent=False):
         return False
     elif username not in list_user1 or password not in passwords1 and silent == True:
         return False
+    elif username in list_user1 and password in passwords1 and silent == True:
+        return True
     else:
         raise LoginException('Невірно логін або пароль')
 
 print(f('Geekhub','forever'))
 print(f('ап', 'sf',True))
+print(f('admin','admin',True))
 print(f('dsfa','fsasfa',True))
 print(f('Geekhub','sdsdadfsaf'))
