@@ -5,8 +5,7 @@ def my_range(start,stop=0,step=1):
     while start<stop:
         yield start
         start += step
-    while stop<start:
-        yield stop
+    if stop<start:
         stop += 1
-for i in my_range(2,10,-1):
+for i in my_range(1,20,8):
     print(i)
