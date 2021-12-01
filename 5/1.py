@@ -14,12 +14,15 @@ def f(username, password, silent=False):
     list_user1 = [i[0] for i in data]
     passwords1 = [i[1] for i in data]
     if username in list_user1 and password in passwords1 and silent == False:
-        print('True')
+        return True
     elif username not in list_user1 and password not in passwords1 and silent == True:
-        print('False')
+        return False
+    elif username not in list_user1 or password not in passwords1 and silent == True:
+        return False
     else:
         raise LoginException('Невірно логін або пароль')
 
-f('ап', 'sf',True)
-f('Geekhub','forever')
-f('sfsad','sfsaf')
+print(f('Geekhub','forever'))
+print(f('ап', 'sf',True))
+print(f('dsfa','fsasfa',True))
+print(f('Geekhub','sdsdadfsaf'))
