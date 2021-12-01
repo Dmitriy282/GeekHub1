@@ -6,24 +6,20 @@
 class LoginException(Exception):
     pass
 def f(username, password, silent=False):
-    dct = [{'sfgdg': 'xvdsd'},
-           {'dgdsg': 'xcsdf'},
-           {'dggsge': 'dfsef'},
-           {'admin': 'admin'},
-           {'Geekhub': 'forever'}]
-    x,y,z,a,d = dct
-    x.update(y)
-    x.update(z)
-    x.update(a)
-    x.update(d)
+    data = [['sfgdg', 'xvdsd'],
+                 ['dgdsg', 'xcsdf'],
+                 ['dggsge', 'dfsef'],
+                 ['admin', 'admin'],
+                 ['Geekhub', 'forever']]
+    list_user1 = [i[0] for i in data]
+    passwords1 = [i[1] for i in data]
+    if username in list_user1 and password in passwords1 and silent == False:
+        print('True')
+    elif username not in list_user1 and password not in passwords1 and silent == True:
+        print('False')
+    else:
+        raise LoginException('Невірно логін або пароль')
 
-    res = x.get(username) == password
-    if not res and not silent:
-        raise LoginException('Непраивльний логін і пароль')
-    return res
-
-
-print(f('username1', 'pass21', silent=True))
-print(f('Geekhub', 'forever'))
-print(f('admin','admin'))
-print(f('dssdada','dsadadafsfa'))
+f('ап', 'sf',True)
+f('Geekhub','forever')
+f('sfsad','sfsaf')
