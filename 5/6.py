@@ -8,5 +8,5 @@ def my_range(start,stop=0,step=1):
     while stop<start:
         yield stop
         stop += 1
-for i in my_range(2,45465,-1):
+for i in my_range(2,10,-1):
     print(i)
