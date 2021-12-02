@@ -6,17 +6,17 @@ import time
  
 while True:
     for i in range(4):
-        print('Red        Green')
+        print('Red      Green')
         time.sleep(1)
  
     for i in range(2):
-        print('Yellow     Green')
+        print('Yellow   Green')
         time.sleep(1)
  
     for i in range(4):
-        print('Green      Red')
+        print('Green    Red')
         time.sleep(1)
  
     for i in range(2):
-        print('Yellow     Red')
+        print('Yellow   Red')
         time.sleep(1)
