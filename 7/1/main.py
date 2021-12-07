@@ -85,7 +85,7 @@ def checkBalance(name):
 
 
 def getCash(name):
-    desire = int(input('Введіть суму для видачі готівки: '))
+    desire = int(input('Видача готівки: '))
     balance_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{name}_balance.data')
     with open(balance_data, 'r') as balance:
         json_balance = json.load(balance)
@@ -102,10 +102,17 @@ def getCash(name):
                 json.dump(transaction, new_transaction)
             new_transaction.close()
     balance.close()
-
+    a = input('Продовжувати,так чи ні?')
+    if a == 'так' and 'Так':
+        getCash(name)
+    elif a == 'ні' and 'Ні':
+        start()
+    else:
+        print('Помилка! Повертаємся до головного меню.')
+        start()
 
 def topUpBalance(name):
-    desire = int(input('Введіть суму грошей для поповнення: '))
+    desire = int(input('Роздрукувати суму грошей для поповнення: '))
     balance_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{name}_balance.data')
     with open(balance_data, 'r') as balance:
         json_balance = json.load(balance)
@@ -120,5 +127,12 @@ def topUpBalance(name):
         new_transaction.close()
     balance.close()
 
-
+    a = input('Продовжувати,так чи ні?')
+    if a == 'так' and 'Так':
+        topUpBalance(name)
+    elif a == 'ні' and 'Ні':
+        start()
+    else:
+        print('Помилка! Повертаємся до головного меню.')
+        start()
 start()
