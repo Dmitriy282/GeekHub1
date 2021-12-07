@@ -85,7 +85,7 @@ def checkBalance(name):
 
 
 def getCash(name):
-    desire = int(input('Видача готівки: '))
+    desire = int(input('Введіть суму для видачі готівки: '))
     balance_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{name}_balance.data')
     with open(balance_data, 'r') as balance:
         json_balance = json.load(balance)
@@ -105,7 +105,7 @@ def getCash(name):
 
 
 def topUpBalance(name):
-    desire = int(input('Роздрукувати суму грошей для поповнення: '))
+    desire = int(input('Введіть суму грошей для поповнення: '))
     balance_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{name}_balance.data')
     with open(balance_data, 'r') as balance:
         json_balance = json.load(balance)
