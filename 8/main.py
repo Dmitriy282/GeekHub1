@@ -231,7 +231,7 @@ def start():
     user_status, user_name = autoriationUser()
     if user_name == 'admin' and user_status:
         while True:
-            desire = int(input("\nAdmin menu:\nНатисніть 0 для ВИХОДУ\n"
+            desire = int(input("\nIncasator menu:\nНатисніть 0 для ВИХОДУ\n"
                                "Натисніть 1 для ПОПОВНЕННЯ БАНКНОТ\n"
                                "Натисніть 2 для ПЕРЕЗАПУСК ДАННИХ\n"
                                "Натисніть 3 для ДОДАВАННЯ НОВОГО(ИХ) КОРИСТУВАЧА(ІВ)\n"
