@@ -64,7 +64,7 @@ def atm_collection(user):
             print('Неправильний вибір! Повторіть спробу!')
     else:
         print('Програма "Банкомат" завершила свою роботу!')
-    return atm_collection(user)
+    
 
 
 def get_money(money):
@@ -95,7 +95,7 @@ def check_enough_banknotes_atm(money):
     with open(user_file, "r") as f:
         dict_admin_balance = json.load(f)
     result_dict = {key: dict_admin_balance[key] - dict_number_banknotes[key] for key in dict_admin_balance if
-                   key in dict_number_banknotes}  # перевірка на залишення в банкоматі коштів при знятті грошей, наприк. {'20': 0, '100': 49, '500': 49}
+                   key in dict_number_banknotes}  
     return all(value >= 0 for value in result_dict.values())
 
 
@@ -221,7 +221,7 @@ def deposite(user, money):
 
 def withdraw(user, money):
     operation = "withdraw"
-    user_file = user + "_balance.json"  # списання коштів рахунку user
+    user_file = user + "_balance.json"  
     with open(user_file, "r") as f:
         balance = json.load(f)
     balance["account"] -= money
