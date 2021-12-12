@@ -14,258 +14,308 @@ import json
 import os
 
 
-def restart():
+def check_user():
+    tries = 0
+    while tries < 3:
+        file_json = "users.json"
+        with open(file_json, "r") as f:
+            users_data = json.load(f)
+        username = input("Введіть ім'я користувача: ")
+        password = input('Введіть пароль: ')
+        if any(i.get('username') == username for i in users_data):
+            if any(i.get('password') == password for i in users_data):
+                print("Ви ввійшли до банківської системи!\n")
+                if username and password == 'admin':
+                    atm_collection(username)
+                return username
+            else:
+                print('Ви ввели невірний пароль !')
+                tries += 1
+        else:
+            print("Будь ласка, введіть коректне ім'я!")
+            tries += 1
+    print('Вибачне, але Ви тричі ввели невірні данні.\n Ваша картка буде заблокована!')
+    return False
 
-    del_file_list = [ f for f in os.listdir(os.path.dirname(os.path.abspath(__file__))) if f.endswith(".data") ]
-    for f in del_file_list:
-        os.remove(os.path.join(os.path.dirname(os.path.abspath(__file__)), f))
 
-    users = {"Dmitriy": "123",
-             "Andriy": "321",
-             "Sergiy": "312",
-             "Geekhub": "213"
-             }
-    
-    users_data = os.path.join(os.path.dirname(os.path.abspath(__file__)),'users.data')
-    with open(users_data, 'w') as write_file:
-        json.dump(users, write_file)
-    
-    banknotes_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'banknotes.data')
-    with open(banknotes_data, 'w') as write_file:
-        banknotes = {'1000':100, '500':100, '200':100, '100':100, '50':100, '20':100, '10':100}
-        json.dump(banknotes, write_file)
-    
-    for user in users:
-        balance_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{user}_balance.data')
-        with open(balance_data, 'w') as write_file:
-            start_balance = 1000
-            json.dump(start_balance, write_file)
-    
-    for user in users:
-        transactions_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{user}_transactions.data')
-        with open(transactions_data, 'w') as write_file:
-            start_transactions = []
-            json.dump(start_transactions, write_file)
+def atm_collection(user):
+    while True:
+        selection = int(input('''Введіть дію: 
+    1. Переглянути залишок коштів у банкоматі
+    2. Поповнити банкомат
+    3. Добавити користувача
+    4. Вихід
+ Ваш вибір: '''))
+        if selection == 1:
+            print('Перегляд балансу банкомату.')
+            operation = "check balance ATM"
+            print(f'Всього в банкоматі {check_balance_ATM(operation)} грн.\n')
+        elif selection == 2:
+            print('Поповнення банкомату.')
+            # operation = "load ATM"
+            load_atm(user)
+        elif selection == 3:
+            addUser()
+        elif selection == 4:
+            print('Вихід!')
+            print('Дякуємо за Ваш вибір!')
+            break
+        else:
+            print('Неправильний вибір! Повторіть спробу!')
+    else:
+        print('Програма "Банкомат" завершила свою роботу!')
+    return atm_collection(user)
 
+
+def get_money(money):
+    lst_banknotes = [1000, 500, 200, 100, 50, 20, 10]
+    INF = 10 ** 10
+    F = [INF] * (money + 1)
+    F[0] = 0
+    for k in range(1, money + 1):
+        for i in range(len(lst_banknotes)):
+            if k - lst_banknotes[i] >= 0 and F[k - lst_banknotes[i]] < F[k]:
+                F[k] = F[k - lst_banknotes[i]]
+        F[k] += 1
+    result_banknotes = []
+    k = money
+    while k != 0:
+        for i in range(len(lst_banknotes)):
+            if k - lst_banknotes[i] >= 0 and F[k] == F[k - lst_banknotes[i]] + 1:
+                result_banknotes.append(lst_banknotes[i])
+                k -= lst_banknotes[i]
+    return result_banknotes
+
+
+def check_enough_banknotes_atm(money):
+    lst_banknotes = get_money(money)
+    dict_number_banknotes = {str(i): lst_banknotes.count(i) for i in lst_banknotes}
+    user = 'admin'
+    user_file = user + "_balance.json"
+    with open(user_file, "r") as f:
+        dict_admin_balance = json.load(f)
+    result_dict = {key: dict_admin_balance[key] - dict_number_banknotes[key] for key in dict_admin_balance if
+                   key in dict_number_banknotes}  # перевірка на залишення в банкоматі коштів при знятті грошей, наприк. {'20': 0, '100': 49, '500': 49}
+    return all(value >= 0 for value in result_dict.values())
+
+
+def check_balance_ATM(operation):
+    user = 'admin'
+    user_file = user + "_balance.json"
+    with open(user_file, "r") as f:
+        admin_balance = json.load(f)
+    all_money = (sum(int(bancknote) * value for bancknote, value in admin_balance.items()))
+    if operation == "check balance ATM":
+        print(f'Всього у банкоматі: {all_money} грн.', '\n')
+        print('У банкоматі знаходиться: ')
+        for bancknote, value in admin_balance.items():
+            print(f"Банкнот {bancknote} грн. - {value} шт.")
+        add_transaction(user, operation, all_money)
+    return all_money
+
+
+def check_banknote(user, banknote):
+    user_file = user + "_balance.json"
+    with open(user_file, "r") as f:
+        admin_balance = json.load(f)
+    banknote = str(banknote)
+    return admin_balance[banknote]
+
+
+def add_cash_to_atm(user, banknote, number):
+    user_file = user + "_balance.json"
+    with open(user_file, "r") as f:
+        admin_balance = json.load(f)
+    banknote = str(banknote)
+    admin_balance[banknote] += number
+    with open(user_file, "w") as f:
+        json.dump(admin_balance, f)
+    with open(user_file, "r") as f:
+        balance = json.load(f)
+    operation = "load ATM"
+    banknote = int(banknote)
+    money = banknote * number
+    add_transaction(user, operation, money)
+    print(f'В банкомат завантажено {number} банкнот  по {banknote} грн. Всього завантажено {money} грн.\n')
+
+
+def load_atm(user):
+    banknote = input('Введіть номінал поповнення 10, 20, 50, 100, 200, 500 чи 1000 грн.: ')
+    if banknote.isdigit():
+        banknote = int(banknote)
+        if banknote in [10, 20, 50, 100, 200, 500, 1000]:
+            number = input('Введіть кількість банкнот поповнення: ')
+            if number.isdigit():
+                number = int(number)
+                if 0 < number < 100:
+                    banknotes_in_atm = check_banknote(user, banknote)
+                    if number + banknotes_in_atm <= 100:
+                        add_cash_to_atm(user, banknote, number)
+                    else:
+                        print(f'В банкоматі банкнота {banknote} грн. у кількості {banknotes_in_atm} шт. \n\
+Можна цю банкноту покласти у кількості {100 - banknotes_in_atm} шт.')
+                else:
+                    print('В банкомат можна завантажити від 1 до 100 банкнот. Ввведіть коректну кількість.')
+            else:
+                print('Будь ласка, введіть лише цифрове значення!\n')
+        else:
+            print('Банкомат не підтримує даний номінал!')
+    else:
+        print('Будь ласка, введіть лише цифрове значення!\n')
+
+
+def add_transaction(user, operation, money):
+    transaction_file = user + "_transactions.json"
+    if os.path.isfile(transaction_file):
+        with open(transaction_file, "r", encoding="utf-8") as f:
+            info = json.load(f)
+            number_transaction = info[-1]["Transaction"] + 1
+    else:
+        number_transaction = 1
+    if operation == "deposite":
+        money = "+" + str(money)
+    elif operation == "withdraw":
+        money = "-" + str(money)
+    user_info = {"Transaction": number_transaction,
+                 "Operation": operation,
+                 "Balance": money}
+    if os.path.isfile(transaction_file):
+        with open(transaction_file, "r", encoding="utf-8") as f:
+            info = json.load(f)
+        info.append(user_info)
+        with open(transaction_file, "w", encoding="utf-8") as f:
+            json.dump(info, f, indent=4, ensure_ascii=False)
+    else:
+        with open(transaction_file, "w", encoding="utf-8") as f:
+            lst = []
+            lst.append(user_info)
+            json.dump(lst, f, indent=4, ensure_ascii=False)
+    return
+
+
+def check_balance(user, operation):
+    user_file = user + "_balance.json"
+    with open(user_file, "r") as f:
+        balance = json.load(f)
+    money = balance["account"]
+    if operation == "deposite" or operation == "withdraw":
+        return money
+    else:
+        add_transaction(user, operation, money)
+    return money
+
+
+def deposite(user, money):
+    user_file = user + "_balance.json"
+    with open(user_file, "r") as f:
+        balance = json.load(f)
+    balance["account"] += money
+    with open(user_file, "w") as f:
+        json.dump(balance, f)
+    with open(user_file, "r") as f:
+        balance = json.load(f)
+    operation = "deposite"
+    add_transaction(user, operation, money)
+    return balance["account"]
+
+
+def withdraw(user, money):
+    operation = "withdraw"
+    user_file = user + "_balance.json"  # списання коштів рахунку user
+    with open(user_file, "r") as f:
+        balance = json.load(f)
+    balance["account"] -= money
+    with open(user_file, "w") as f:
+        json.dump(balance, f)
+    add_transaction(user, operation, money)
+    lst_banknotes = get_money(money)
+    dict_number_banknotes = {str(i): lst_banknotes.count(i) for i in lst_banknotes}
+    user = 'admin'
+    user_file = user + "_balance.json"
+    with open(user_file, "r") as f:
+        dict_admin_balance = json.load(f)
+    result_dict = {key: dict_admin_balance[key] - dict_number_banknotes[key] for key in dict_admin_balance if
+                   key in dict_number_banknotes}
+    dict_admin_balance.update(result_dict)
+    dict_digit = {int(k): v for k, v in dict_admin_balance.items()}
+    dict_digit_sorted = dict(sorted(dict_digit.items()))
+    dict_admin_balance_str = {str(k): v for k, v in dict_digit_sorted.items()}
+    with open(user_file, "w") as f:
+        json.dump(dict_admin_balance_str, f)
+    add_transaction(user, operation, money)
+    return
 def addUser():
-    users_data = os.path.join(os.path.dirname(os.path.abspath(__file__)),'users.data')
+    users_data = os.path.join(os.path.dirname(os.path.abspath(__file__)),'users.json')
     with open(users_data, 'r') as write_file:
         users = json.load(write_file)
-        amount = int(input('Введіть кількість нових користувачів: '))
-        new_users = {} 
-        for _ in range(amount):
-            new_users_name = input(f'Введіть імя нового користувача #{_ + 1}: ')
-            new_users_password = input(f'Введіть новий пароль користувача  #{_ + 1}: ')
-            users[new_users_name] = new_users_password
-            new_users [new_users_name] = new_users_password
+    username = input('Введіть імя нового користувача: ')
+    password = input("Введіть новий пароль користувача: ")
+    user_info = {'username': username, 'password': password}
+    users.append(user_info)
     with open(users_data, 'w') as write_file:
         json.dump(users, write_file)
-
-    print('Ви добавили: ', end='')
-    for user in new_users:
-        print(f'{user}, ', end='')
-    print('\n')
-
-    for user in new_users:
-        balance_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{user}_balance.data')
-        with open(balance_data, 'w') as write_file:
-            start_balance = 1000
-            json.dump(start_balance, write_file)
-
-    for user in new_users:
-        transactions_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{user}_transactions.data')
-        with open(transactions_data, 'w') as write_file:
-            start_transactions = []
-            json.dump(start_transactions, write_file)
-    a = input('Продовжувати,так чи ні?')
-    if a == 'так' and 'Так':
-        addUser()
-    elif a == 'ні' and 'Ні':
-        start()
-    else:
-        print('Помилка! Повертаємся до головного меню.')
-        start()
-def autoriationUser():
-    status_user = True
-    user_name = input('Введіть імя: ')
-    users_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'users.data')
-    with open(users_data, 'r') as users_data:
-        users_dict = json.load(users_data)
-        if user_name in users_dict:
-            user_password = str(input ('Введіть пароль: '))
-            counter = 2
-            for _ in range(3):
-                if users_dict[user_name] == user_password:
-                    print(f'\n{user_name}, ласкаво просимо!')
-                    status_user = True
-                    break
-                else:
-                    print(f'Невірний пароль! Спробуйте ще раз, у вас є {counter} спроб')
-                    counter -= 1             
-                    user_password = str(input ('Введіть ваш пароль ще раз: '))
-        else:
-            print(f'Не існує такого імя {user_name}.')
-    return(status_user, user_name)
-
-
-
-
-def getMoney(user_name):
-    desire = int(input('Введіть суму грошей: '))
-    balance_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{user_name}_balance.data')
-    with open(balance_data, 'r') as read_file:
-        users_balace = json.load(read_file)
-    if desire <= users_balace:
-        new_users_balace = users_balace - desire
-        desire1 = desire
-
-        counter1000 = desire//1000
-        desire -= 1000 * counter1000
-        counter500 = desire//500
-        desire -= 500 * counter500
-        counter200 = desire//200
-        desire -= 200 * counter200
-        counter100 = desire//100
-        desire -= 100 * counter100
-        counter50 = desire//50
-        desire -= 50 * counter50
-        counter20 = desire//20
-        desire -= 20 * counter20
-        counter10 = desire // 10
-        desire -= 10 * counter10
-        transaction_text = f'Отримав гроші: {desire1}'
-
-        with open(balance_data, 'w') as write_file:
-            json.dump(new_users_balace, write_file)
-
-        transaction_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{user_name}_transactions.data')
-        with open(transaction_data, 'r') as read_file:
-            transactions_list = json.load(read_file)
-        transactions_list.append(transaction_text)
-        with open(transaction_data, 'w') as write_file:
-            json.dump(transactions_list, write_file)
-        print(f'Отримати гроші: {desire1} UAH!\nБанкноти:1000 UAH x {counter1000}, 500 UAH x {counter500}, 200 UAH x {counter200}, 100 UAH x {counter100}, 50 UAH x {counter50}, 20 UAH x {counter20}, 10 UAH x {counter10}')
-    else:
-        print('Недостатньо грошей!')
-    a = input('Продовжувати,так чи ні?')
-    if a == 'так' and 'Так':
-        getMoney(user_name)
-    elif a == 'ні' and 'Ні':
-        start()
-    else:
-        print('Помилка! Повертаємся до головного меню.')
-        start()
-def topUpBalance(user_name):
-    desire = int(input('Введіть суму грошей: '))
-    transaction_text = f'Поповнив баланс: {desire}'
-   
-    balance_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{user_name}_balance.data')
-    with open(balance_data, 'r') as read_file:
-        users_balace = json.load(read_file)
-    users_balace += desire
-
-    balance_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{user_name}_balance.data')
-    with open(balance_data, 'w') as write_file:
-        json.dump(users_balace, write_file)
-
-    transaction_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{user_name}_transactions.data')
-    with open (transaction_data, 'r') as read_file:
-        transactions_list = json.load(read_file)
-    with open(transaction_data, 'w') as write_file:
-        transactions_list.append(transaction_text)
-        json.dump(transactions_list, write_file)
-    print(f'Ви поповнили баланс на {desire} UAH\n')
-    a = input('Продовжувати,так чи ні?')
-    if a == 'так' and 'Так':
-        topUpBalance(user_name)
-    elif a == 'ні' and 'Ні':
-        start()
-    else:
-        print('Помилка! Повертаємся до головного меню.')
-        start()
-def checkBalance(user_name):
-    balance_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'{user_name}_balance.data')
-    with open (balance_data, 'r') as read_file:
-        balance = json.load(read_file)
-    print('Ваш баланс: ', balance, 'UAH')
-
-def topUpBanknotes():
-    banknotes_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'banknotes.data')
-    with open(banknotes_data, 'r') as read_file:
-        banknotes = json.load(read_file)
-    for banknote in banknotes:
-        count = int(input(f'Скільки {banknote} блокнот ви б додали? '))
-        banknotes[banknote] = banknotes[banknote] + count
-    with open(banknotes_data, 'w') as write_file:
-        json.dump(banknotes, write_file)
-    print('Успішно!')
-    a = input('Продовжувати,так чи ні?')
-    if a == 'так' and 'Так':
-        topUpBanknotes()
-    elif a == 'ні' and 'Ні':
-        start()
-    else:
-        print('Помилка! Повертаємся до головного меню.')
-        start()
-def checkBanknotesBalance():
-    banknotes_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'banknotes.data')
-    with open(banknotes_data, 'r') as read_file:
-        banknotes = json.load(read_file)
-    money = 0
-    print('')
-    for banknote in banknotes:
-        print(f'{banknote} UAH x', banknotes[banknote])
-        money += int(banknote) * banknotes[banknote]
-    print('Гроші в касі: ', money, ' UAH')
-
-def checkRequiredFilse():
-    users_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'users.data')
-    status = os.path.isfile(users_data)
-    if status == False:
-        restart()
-    return(status)
-
+    print(f'Ви добавили {username} користувача')
 
 def start():
-    checkRequiredFilse()
-    user_status, user_name = autoriationUser()
-    if user_name == 'admin' and user_status:
+    user = check_user()
+    if user and user != 'admin':
         while True:
-            desire = int(input("\nIncasator menu:\nНатисніть 0 для ВИХОДУ\n"
-                               "Натисніть 1 для ПОПОВНЕННЯ БАНКНОТ\n"
-                               "Натисніть 2 для ПЕРЕЗАПУСК ДАННИХ\n"
-                               "Натисніть 3 для ДОДАВАННЯ НОВОГО(ИХ) КОРИСТУВАЧА(ІВ)\n"
-                               "Натисніть 4 для ПЕРЕВІРКИ БАЛАНС БАНКНОТ\n"))
-            if desire == 1:
-                topUpBanknotes()
-            elif desire == 0:
-                break
-            elif desire == 2:
-                restart()
-            elif desire == 3:
-                addUser()
-            elif desire == 4:
-                checkBanknotesBalance()
-            else:
-                print('Спробуйте ще раз')
-                break
-    else:
-        if user_status:
-            while True:
-                desire = int(input('\nMenu:\nНатисніть 0 для ВИХОДУ\n'
-                                   'Натисніть 1 для ПЕРЕВІРКИ БАЛАНСУ\n'
-                                   'Натисніть 2 для ОТИРМАННЯ ГОТІВКИ\n'
-                                   'Натисніть 3 для ПОПОВНЕННЯ БАЛАНСУ\n'))
-                if desire == 1:
-                    checkBalance(user_name)
-                elif desire == 2:
-                    getMoney(user_name)
-                elif desire == 3:
-                    topUpBalance(user_name)
-                elif desire == 0:
-                    break
+            selection = int(input('''Введіть дію: 
+    1. Продивитись баланс
+    2. Поповнити баланс
+    3. Зняти кошти
+    4. Вихід
+ Ваш вибір: '''))
+            if selection == 1:
+                print('Перегляд балансу.')
+                operation = "check balance"
+                print(f'На Вашому рахунку {check_balance(user, operation)} грн.\n')
+            elif selection == 2:
+                print('Поповнення балансу.')
+                money = input('Введіть суму поповнення: ')
+                if money.isdigit():
+                    money = int(money)
+                    if money in [1000, 500, 200, 100, 50, 20]:
+                        print(f'На Вашому рахуноку {deposite(user, money)} грн., його поповнено на суму {money} грн.\n')
+                    else:
+                        print('Банкомат приймає лише номінали 10,20, 50, 100, 200, 500 або 1000 грн.!\n')
                 else:
-                    print('Спробуйте ще раз')
-                    break
+                    print('Будь ласка, введіть лише цифрове значення!\n')
+
+            elif selection == 3:
+                print('Зняття коштів.')
+                operation = "withdraw"
+                money = input('Введіть необхідну суму: ')
+                if money.isdigit():
+                    money = int(money)
+                    if money != 0 and money % 10 == 0 and money not in [10, 30]:
+                        if check_balance(user, operation) - money >= 0:
+                            if check_balance_ATM(operation) - money >= 0:
+                                if check_enough_banknotes_atm(money):
+                                    withdraw(user, money)
+                                    print(
+                                        f'На Вашому рахуноку {check_balance(user, operation)} грн., з нього знято {money} грн.')
+                                    print('Купюрами: ', *get_money(money), 'грн.\n')
+                                else:
+                                    print('У банкоматі немає банкнот для видачі зазначену суму!')
+                            else:
+                                print('На даний момент у банкоматі недостатньо коштів для видачі вказаної суми!\n')
+                        else:
+                            print('На Вашому рахунку недостатньо коштів!\n')
+                    else:
+                        print(
+                            f'Введенної суми, {money} грн., банкомат не може видати наявними номіналами 20, 50, 100, 200, 500 і 1000 грн!')
+                else:
+                    print('Будь ласка, введіть лише цифрове значення!\n')
+            elif selection == 4:
+                print('Вихід!')
+                print('Дякуємо за Ваш вибір!')
+                print('Програма "Банкомат" завершила свою роботу!')
+                break
+            else:
+                print('Неправильний вибір! Повторіть спробу!')
+    else:
+        print('Програма "Банкомат" завершила свою роботу!')
+
 
 start()
