@@ -1,0 +1,12 @@
+[
+    {
+        "Transaction": 1,
+        "Operation": "withdraw",
+        "Balance": "-100"
+    },
+    {
+        "Transaction": 2,
+        "Operation": "load ATM",
+        "Balance": 400
+    }
+]
