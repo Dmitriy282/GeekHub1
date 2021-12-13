@@ -1,4 +1,4 @@
-#1. Доповніть програму-банкомат з попереднього завдання таким функціоналом, як використання банкнот.
+# 1. Доповніть програму-банкомат з попереднього завдання таким функціоналом, як використання банкнот.
 #   Отже, у банкомата повинен бути такий режим як "інкассація", за допомогою якого в нього можна "загрузити" деяку кількість банкнот (вибирається номінал і кількість).
 #  Зняття грошей з банкомату повинно відбуватись в межах наявних банкнот за наступним алгоритмом - видається мінімальна кількість банкнот наявного номіналу. P.S. Будьте обережні з використанням "жадібного" алгоритму (коли вибирається спочатку найбільша банкнота, а потім - наступна за розміром і т.д.) - в деяких випадках він працює неправильно або не працює взагалі. Наприклад, якщо треба видати 160 грн., а в наявності є банкноти номіналом 20, 50, 100, 500,  банкомат не зможе видати суму (бо спробує видати 100 + 50 + (невідомо), а потрібно було 100 + 20 + 20 + 20 ).
 #   Особливості реалізації:
@@ -8,7 +8,7 @@
 #     - змінити кількість купюр;
 #   - видача грошей для користувачів відбувається в межах наявних купюр;
 #   - якщо гроші вносяться на рахунок - НЕ ТРЕБА їх розбивати і вносити в банкомат - не ускладнюйте собі життя, та й, наскільки я розумію, банкомати все, що в нього входить, відкладає в окрему касету.
-#2. Для кращого засвоєння - перед написанням коду із п.1 - видаліть код для старої програми-банкомату і напишіть весь код наново (завдання на самоконтроль).
+# 2. Для кращого засвоєння - перед написанням коду із п.1 - видаліть код для старої програми-банкомату і напишіть весь код наново (завдання на самоконтроль).
 #   До того ж, скоріш за все, вам прийдеться і так багато чого переписати.
 import json
 import os
@@ -52,7 +52,7 @@ def atm_collection(user):
             print(f'Всього в банкоматі {check_balance_ATM(operation)} грн.\n')
         elif selection == 2:
             print('Поповнення банкомату.')
-            # operation = "load ATM"
+
             load_atm(user)
         elif selection == 3:
             addUser()
@@ -64,11 +64,20 @@ def atm_collection(user):
             print('Неправильний вибір! Повторіть спробу!')
     else:
         print('Програма "Банкомат" завершила свою роботу!')
-    
+
+
+
 
 
 def get_money(money):
-    lst_banknotes = [1000, 500, 200, 100, 50, 20, 10]
+    real_banknotes = []
+    lst_banknotes = []
+    with open('admin_balance.json', 'r', encoding='utf-8') as g:
+        real_banknotes = json.load(g)
+        for actual_balance in real_banknotes:
+            if real_banknotes[actual_balance] != 0:
+                lst_banknotes.append(actual_balance)
+        lst_banknotes = list(map(int, lst_banknotes))
     INF = 10 ** 10
     F = [INF] * (money + 1)
     F[0] = 0
@@ -84,7 +93,8 @@ def get_money(money):
             if k - lst_banknotes[i] >= 0 and F[k] == F[k - lst_banknotes[i]] + 1:
                 result_banknotes.append(lst_banknotes[i])
                 k -= lst_banknotes[i]
-    return result_banknotes
+    return result_banknotes[:]
+
 
 
 def check_enough_banknotes_atm(money):
@@ -95,7 +105,7 @@ def check_enough_banknotes_atm(money):
     with open(user_file, "r") as f:
         dict_admin_balance = json.load(f)
     result_dict = {key: dict_admin_balance[key] - dict_number_banknotes[key] for key in dict_admin_balance if
-                   key in dict_number_banknotes}  
+                   key in dict_number_banknotes}
     return all(value >= 0 for value in result_dict.values())
 
 
@@ -221,7 +231,7 @@ def deposite(user, money):
 
 def withdraw(user, money):
     operation = "withdraw"
-    user_file = user + "_balance.json"  
+    user_file = user + "_balance.json"
     with open(user_file, "r") as f:
         balance = json.load(f)
     balance["account"] -= money
@@ -244,8 +254,10 @@ def withdraw(user, money):
         json.dump(dict_admin_balance_str, f)
     add_transaction(user, operation, money)
     return
+
+
 def addUser():
-    users_data = os.path.join(os.path.dirname(os.path.abspath(__file__)),'users.json')
+    users_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'users.json')
     with open(users_data, 'r') as write_file:
         users = json.load(write_file)
     username = input('Введіть імя нового користувача: ')
@@ -255,6 +267,7 @@ def addUser():
     with open(users_data, 'w') as write_file:
         json.dump(users, write_file)
     print(f'Ви добавили {username} користувача')
+
 
 def start():
     user = check_user()
@@ -295,7 +308,7 @@ def start():
                                     withdraw(user, money)
                                     print(
                                         f'На Вашому рахуноку {check_balance(user, operation)} грн., з нього знято {money} грн.')
-                                    print('Купюрами: ', *get_money(money), 'грн.\n')
+                                    print('Купюрами: ', get_money(money), 'грн.\n')
                                 else:
                                     print('У банкоматі немає банкнот для видачі зазначену суму!')
                             else:
