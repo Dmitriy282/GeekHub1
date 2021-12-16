@@ -287,7 +287,7 @@ def start():
                 money = input('Введіть необхідну суму: ')
                 if money.isdigit():
                     money = int(money)
-                    if money != 0 and money % 10 == 0 and money not in [10, 30]:
+                    if money != 0 and money % 10 == 0 and money not in [0,10]:
                         if check_balance(user, operation) - money >= 0:
                             if check_balance_ATM(operation) - money >= 0:
                                 if check_enough_banknotes_atm(money):
