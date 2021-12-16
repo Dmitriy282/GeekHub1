@@ -8,5 +8,465 @@
         "Transaction": 2,
         "Operation": "load ATM",
         "Balance": 400
+    },
+    {
+        "Transaction": 3,
+        "Operation": "check balance ATM",
+        "Balance": 95100
+    },
+    {
+        "Transaction": 4,
+        "Operation": "check balance ATM",
+        "Balance": 95100
+    },
+    {
+        "Transaction": 5,
+        "Operation": "withdraw",
+        "Balance": "-20"
+    },
+    {
+        "Transaction": 6,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 7,
+        "Operation": "check balance ATM",
+        "Balance": 2210
+    },
+    {
+        "Transaction": 8,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 9,
+        "Operation": "load ATM",
+        "Balance": 10
+    },
+    {
+        "Transaction": 10,
+        "Operation": "check balance ATM",
+        "Balance": 3170
+    },
+    {
+        "Transaction": 11,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 12,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 13,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 14,
+        "Operation": "withdraw",
+        "Balance": "-300"
+    },
+    {
+        "Transaction": 15,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 16,
+        "Operation": "withdraw",
+        "Balance": "-300"
+    },
+    {
+        "Transaction": 17,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 18,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 19,
+        "Operation": "withdraw",
+        "Balance": "-170"
+    },
+    {
+        "Transaction": 20,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 21,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 22,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 23,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 24,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 25,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 26,
+        "Operation": "withdraw",
+        "Balance": "-1050"
+    },
+    {
+        "Transaction": 27,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 28,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 29,
+        "Operation": "withdraw",
+        "Balance": "-190"
+    },
+    {
+        "Transaction": 30,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 31,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 32,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 33,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 34,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 35,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 36,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 37,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 38,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 39,
+        "Operation": "check balance ATM",
+        "Balance": 550
+    },
+    {
+        "Transaction": 40,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 41,
+        "Operation": "withdraw",
+        "Balance": "-250"
+    },
+    {
+        "Transaction": 42,
+        "Operation": "withdraw",
+        "Balance": "-300"
+    },
+    {
+        "Transaction": 43,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 44,
+        "Operation": "withdraw",
+        "Balance": "-90"
+    },
+    {
+        "Transaction": 45,
+        "Operation": "withdraw",
+        "Balance": "-100"
+    },
+    {
+        "Transaction": 46,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 47,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 48,
+        "Operation": "withdraw",
+        "Balance": "-20"
+    },
+    {
+        "Transaction": 49,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 50,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 51,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 52,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 53,
+        "Operation": "withdraw",
+        "Balance": "-20"
+    },
+    {
+        "Transaction": 54,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 55,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 56,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 57,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 58,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 59,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 60,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 61,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 62,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 63,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 64,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 65,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 66,
+        "Operation": "withdraw",
+        "Balance": "-100"
+    },
+    {
+        "Transaction": 67,
+        "Operation": "withdraw",
+        "Balance": "-1020"
+    },
+    {
+        "Transaction": 68,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 69,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 70,
+        "Operation": "withdraw",
+        "Balance": "-1040"
+    },
+    {
+        "Transaction": 71,
+        "Operation": "check balance ATM",
+        "Balance": 1590
+    },
+    {
+        "Transaction": 72,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 73,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 74,
+        "Operation": "withdraw",
+        "Balance": "-120"
+    },
+    {
+        "Transaction": 75,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 76,
+        "Operation": "withdraw",
+        "Balance": "-130"
+    },
+    {
+        "Transaction": 77,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 78,
+        "Operation": "withdraw",
+        "Balance": "-670"
+    },
+    {
+        "Transaction": 79,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 80,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 81,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 82,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 83,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 84,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 85,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 86,
+        "Operation": "check balance ATM",
+        "Balance": 2560
+    },
+    {
+        "Transaction": 87,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 88,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 89,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 90,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 91,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 92,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 93,
+        "Operation": "withdraw",
+        "Balance": "-160"
+    },
+    {
+        "Transaction": 94,
+        "Operation": "load ATM",
+        "Balance": 3000
     }
 ]
