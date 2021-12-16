@@ -468,5 +468,20 @@
         "Transaction": 94,
         "Operation": "load ATM",
         "Balance": 3000
+    },
+    {
+        "Transaction": 95,
+        "Operation": "check balance ATM",
+        "Balance": 5400
+    },
+    {
+        "Transaction": 96,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 97,
+        "Operation": "withdraw",
+        "Balance": "-1050"
     }
 ]

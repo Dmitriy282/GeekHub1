@@ -678,5 +678,35 @@
         "Transaction": 136,
         "Operation": "withdraw",
         "Balance": "-160"
+    },
+    {
+        "Transaction": 137,
+        "Operation": "check balance",
+        "Balance": 280
+    },
+    {
+        "Transaction": 138,
+        "Operation": "withdraw",
+        "Balance": "-200"
+    },
+    {
+        "Transaction": 139,
+        "Operation": "check balance",
+        "Balance": 1080
+    },
+    {
+        "Transaction": 140,
+        "Operation": "check balance",
+        "Balance": 1080
+    },
+    {
+        "Transaction": 141,
+        "Operation": "check balance",
+        "Balance": 1080
+    },
+    {
+        "Transaction": 142,
+        "Operation": "withdraw",
+        "Balance": "-1050"
     }
 ]
